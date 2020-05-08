@@ -29,6 +29,8 @@ import os
 import argparse
 import tqdm
 
+from skimage import img_as_ubyte
+
 import torch
 import torch.nn.functional as F
 
@@ -170,19 +172,31 @@ def save_heatmaps(heatmap_malignant, heatmap_benign, short_file_path, view, hori
     """
     Saves the heatmaps after flipping back to the original direction
     """
+    image_extension = '.hdf5' if parameters['use_hdf5'] else '.png'
+    
     heatmap_malignant = loading.flip_image(heatmap_malignant, view, horizontal_flip)
     heatmap_benign = loading.flip_image(heatmap_benign, view, horizontal_flip)
     heatmap_save_path_malignant = os.path.join(
         parameters['save_heatmap_path'][0], 
-        short_file_path + '.hdf5'
+        short_file_path + image_extension
     )
-    saving_images.save_image_as_hdf5(heatmap_malignant, heatmap_save_path_malignant)
+    if image_extension == '.hdf5':
+        saving_images.save_image_as_hdf5(heatmap_malignant, heatmap_save_path_malignant)
+    elif image_extension == '.png':
+        saving_images.save_image_as_png(img_as_ubyte(heatmap_malignant), heatmap_save_path_malignant)
+    else:
+        raise NotImplementedError
 
     heatmap_save_path_benign = os.path.join(
         parameters['save_heatmap_path'][1],
-        short_file_path + '.hdf5'
+        short_file_path + image_extension
     )
-    saving_images.save_image_as_hdf5(heatmap_benign, heatmap_save_path_benign)
+    if image_extension == '.hdf5':
+        saving_images.save_image_as_hdf5(heatmap_benign, heatmap_save_path_benign)
+    elif image_extension == '.png':
+        saving_images.save_image_as_png(img_as_ubyte(heatmap_benign), heatmap_save_path_benign)
+    else:
+        raise NotImplementedError
 
 
 def get_image_path(short_file_path, parameters):
@@ -343,6 +357,8 @@ def main():
     parser.add_argument("--use-hdf5", action="store_true")
     args = parser.parse_args()
 
+    random.seed(args.seed)
+    
     parameters = dict(
         device_type=args.device_type,
         gpu_number=args.gpu_number,
@@ -367,7 +383,7 @@ def main():
 
         use_hdf5=args.use_hdf5
     )
-    random.seed(parameters['seed'])
+    
     model, device = load_model(parameters)
     produce_heatmaps(model, device, parameters)
 
