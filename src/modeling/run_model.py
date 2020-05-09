@@ -77,7 +77,7 @@ def run_model(model, device, exam_list, parameters):
             for view in VIEWS.LIST:
                 for short_file_path in datum[view]:
                     loaded_image = loading.load_image(
-                        image_path=os.path.join(parameters["image_path"], short_file_path + image_extension),
+                        image_path=os.path.join(parameters["image_path"], short_file_path + ".png"),
                         view=view,
                         horizontal_flip=datum["horizontal_flip"],
                     )
