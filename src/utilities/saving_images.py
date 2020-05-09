@@ -39,5 +39,5 @@ def save_image_as_hdf5(image, filename):
     Saves image as hdf5 files to preserve the floating point values.
     """
     h5f = h5py.File(filename, 'w')
-    h5f.create_dataset('image', data=image.transpose(), compression="lzf")
+    h5f.create_dataset('image', data=image.transpose(), compression="gzip")  #lzf")
     h5f.close()
