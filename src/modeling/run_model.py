@@ -84,9 +84,9 @@ def run_model(model, device, exam_list, parameters):
                     if parameters["use_heatmaps"]:
                         loaded_heatmaps = loading.load_heatmaps(
                             benign_heatmap_path=os.path.join(parameters["heatmaps_path"], "heatmap_benign",
-                                                             short_file_path + ".hdf5"),
+                                                             short_file_path + image_extension),
                             malignant_heatmap_path=os.path.join(parameters["heatmaps_path"], "heatmap_malignant",
-                                                                short_file_path + ".hdf5"),
+                                                                short_file_path + image_extension),
                             view=view,
                             horizontal_flip=datum["horizontal_flip"],
                         )
