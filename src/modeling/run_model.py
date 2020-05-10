@@ -66,7 +66,8 @@ def run_model(model, device, exam_list, parameters):
     """
     random_number_generator = np.random.RandomState(parameters["seed"])
 
-    image_extension = ".hdf5" if parameters["use_hdf5"] else ".png"
+    # image_extension = ".hdf5" if parameters["use_hdf5"] else ".png"
+    image_extension = ".hdf5"
 
     with torch.no_grad():
         predictions_ls = []

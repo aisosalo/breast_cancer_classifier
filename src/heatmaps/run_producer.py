@@ -203,8 +203,7 @@ def get_image_path(short_file_path, parameters):
     """
     Convert short_file_path to full file path
     """
-    image_extension = '.hdf5' if parameters['use_hdf5'] else '.png'
-    return os.path.join(parameters['original_image_path'], short_file_path + image_extension)
+    return os.path.join(parameters['original_image_path'], short_file_path + '.png')
 
 
 def sample_patches(exam, parameters):
