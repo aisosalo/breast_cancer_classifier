@@ -51,16 +51,15 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
-*.log
+# Django
 local_settings.py
 db.sqlite3
 
-# Flask stuff:
+# Flask
 instance/
 .webassets-cache
 
-# Scrapy stuff:
+# Scrapy
 .scrapy
 
 # Sphinx documentation
@@ -132,12 +131,10 @@ venv.bak/
 *.xml
 
 # Folders
-metadata/
 snapshots/
 log/
 logs/
 .idea/
 sample_output/
 sample_data/
-data/
-output/
+models/
