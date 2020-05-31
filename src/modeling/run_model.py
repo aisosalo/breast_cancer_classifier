@@ -67,7 +67,7 @@ def run_model(model, device, exam_list, parameters):
     random_number_generator = np.random.RandomState(parameters["seed"])
 
     # image_extension = ".hdf5" if parameters["use_hdf5"] else ".png"
-    image_extension = ".hdf5"
+    image_extension = ".hdf5"  # mod
 
     with torch.no_grad():
         predictions_ls = []
@@ -78,7 +78,7 @@ def run_model(model, device, exam_list, parameters):
             for view in VIEWS.LIST:
                 for short_file_path in datum[view]:
                     loaded_image = loading.load_image(
-                        image_path=os.path.join(parameters["image_path"], short_file_path + ".png"),
+                        image_path=os.path.join(parameters["image_path"], short_file_path + ".png"),  # mod
                         view=view,
                         horizontal_flip=datum["horizontal_flip"],
                     )
@@ -131,7 +131,11 @@ def run_model(model, device, exam_list, parameters):
                 pred_df.columns.names = ["label", "view_angle"]
                 predictions = pred_df.T.reset_index().groupby("label").mean().T[LABELS.LIST].values
                 predictions_for_datum.append(predictions)
-            predictions_ls.append(np.mean(np.concatenate(predictions_for_datum, axis=0), axis=0))
+            preds = np.mean(np.concatenate(predictions_for_datum, axis=0), axis=0)  # mod
+            if parameters["include_exam_id"]:  # mod
+                exam_id = datum["exam"]
+                preds = np.append(preds, exam_id)
+            predictions_ls.append(preds)
 
     return np.array(predictions_ls)
 
