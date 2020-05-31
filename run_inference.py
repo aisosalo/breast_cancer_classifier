@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--use-heatmaps', choices=[False, True], default=True)
     parser.add_argument('--use-augmentation', choices=[False, True], default=True)
-    parser.add_argument('--use-hdf5', choices=[True], default=True)
+    parser.add_argument('--use-hdf5', choices=[True, False], default=True)
     parser.add_argument('--num-epochs', default=10, type=int)
     parser.add_argument('--device-type', choices=['gpu', 'cpu'], default='gpu')
     parser.add_argument('--gpu-number', default=0, type=int)
@@ -58,6 +58,7 @@ if __name__ == "__main__":
         "use_hdf5": args.use_hdf5,
         "model_mode": args.model_mode,
         "model_path": os.path.join(args.model_root, args.model),
+        "include_exam_id": False  # mod
     }
 
     os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
